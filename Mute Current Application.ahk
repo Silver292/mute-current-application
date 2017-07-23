@@ -13,11 +13,14 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 
+;Global hotkey var
+muteHotkey = ''
+
 loadHotkeyFromIni:
     ;Check for ini file
     IfNotExist, config.ini
         ; if no ini file show gui
-        Gosub, showGui
+        showGui()
     else {
         ; Read in current hotkey from ini file
         IniRead, muteHotkey, config.ini, Config, Hotkey
@@ -25,9 +28,11 @@ loadHotkeyFromIni:
         ;If no hotkey
         if(!muteHotkey){
             ;show gui
-           Gosub, showGui
+            showGui()
+            } else {
+                setHotkeyAction(muteHotkey)
+            }
         }
-    }
 
 setUpMenu:
     ; Set up tray menu
@@ -42,16 +47,51 @@ setUpMenu:
     Gui, Show, x720 y321 h134 w216, Change Hotkey
     Return
 
-showGui:
-Gui, Show, x720 y321 h134 w216, Change Hotkey
-Return
+showGui(){
+    Gui, Show, x720 y321 h134 w216, Change Hotkey
+    Return
+}
 
 saveButton:
-Gui, Submit
-IniWrite, %muteHotkey%, config.ini, Config, Hotkey
-Return
+    ;get old hotkey and clear action on it
+    oldHotkey = %muteHotkey%
+    Gui, Submit ; stores new hotkey in muteHotkey
+    IniWrite, %muteHotkey%, config.ini, Config, Hotkey ; save key in ini
+    setNewHotkey(oldHotkey, muteHotkey)
+    Return
 
+setNewHotkey(oldKey, newHotkey){
+    ; Don't do anything if key has not changed
+    if(oldKey == newHotkey){
+        Return
+    }
+
+    clearHotkeyAction(oldKey)
+    setHotkeyAction(newHotkey)
+    Return
+}
+
+clearHotkeyAction(key){
+    if(key){
+        Hotkey, %key%, OFF
+    }
+    Return
+}
+
+setHotkeyAction(key) {
+    if(key){
+        Hotkey, %key%, muteApplication
+    }
+    Return
+}
+
+muteApplication:
+    MsgBox, Hotkey pressed: %muteHotkey%
+    ; run nircmd muteappvolume focused 2
+    Return
+
+; Debug refresh
 F12::
-Reload
-Return
+    Reload
+    Return
 
