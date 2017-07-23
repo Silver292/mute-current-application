@@ -18,7 +18,8 @@ muteHotkey = ''
 
 init:
     Gosub, loadConfig
-    Gosub, setUpMenu
+    Gosub, setupMenu
+    Gosub, setupGui
     return
 
 loadConfig:
@@ -40,12 +41,14 @@ loadConfig:
         }
     Return
 
-setUpMenu:
+setupMenu:
     ; Set up tray menu
     Menu, Tray, Icon, muted volume.ico
     Menu, Tray, Tip, Mute Current Application
     Menu, Tray, Add, Change Hotkey, showGui
 
+setupGui:
+    ; Set up gui
     Gui, Add, Text, x61 y9 w90 h20 , Enter your hotkey:
     Gui, Add, Hotkey, x12 y39 w190 h30 vmuteHotkey, %muteHotkey%
     Gui, Add, Button, x56 y79 w100 h30 gsaveButton, Save
