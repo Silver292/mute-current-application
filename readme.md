@@ -1,7 +1,7 @@
 # Mute Current Application
 Toggles muting of the active application using a hotkey.
 ## Installation
-1. Download the archive [here](https://github.com/Silver292/mute-current-application/releases/tag/v1.0.0).
+1. Download the archive [here](https://github.com/Silver292/mute-current-application/releases/latest).
 2. Extract the mute-current-application directory.
 3. Run Mute Current Application.exe
 ## Usage
