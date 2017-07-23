@@ -54,6 +54,8 @@ setupMenu:
     Menu, Tray, Add
     Menu, Tray, Add, Exit, Exit
 
+    showTraytip("Mute Current Application is currently running")
+
     Return
 
 setupGui:
@@ -61,8 +63,6 @@ setupGui:
     Gui, Add, Text, x61 y9 w90 h20 , Enter your hotkey:
     Gui, Add, Hotkey, x12 y39 w190 h30 vmuteHotkey, %muteHotkey%
     Gui, Add, Button, x56 y79 w100 h30 gsaveButton, Save
-    ; Generated using SmartGUI Creator 4.0
-    Gui, Show, x720 y321 h134 w216, Change Hotkey
     Return
 
 saveButton:
@@ -77,6 +77,17 @@ muteApplication:
     run nircmd muteappvolume focused 2
     Return
 
+showTraytip(message){
+    global muteHotkey
+
+    if(muteHotkey){
+        hotkeyMessage = Hotkey: %muteHotkey%
+    } else {
+        hotkeyMessage = No hotkey set!
+    }
+    TrayTip, Mute Current Application, %message%`n%hotkeyMessage%, 20, 17
+}
+
 showGui(){
     Gui, Show, x720 y321 h134 w216, Change Hotkey
     Return
@@ -90,6 +101,7 @@ setNewHotkey(oldKey, newHotkey){
 
     clearHotkeyAction(oldKey)
     setHotkeyAction(newHotkey)
+    showTraytip("New hotkey set!")
     Return
 }
 
