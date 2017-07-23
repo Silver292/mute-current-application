@@ -104,16 +104,9 @@ setHotkeyAction(key) {
 }
 
 muteApplication:
-    MsgBox, Hotkey pressed: %muteHotkey%
-    ; run nircmd muteappvolume focused 2
+    run nircmd muteappvolume focused 2
     Return
 
 Exit() {
     ExitApp
 }
-
-; Debug refresh
-F12::
-    Reload
-    Return
-
