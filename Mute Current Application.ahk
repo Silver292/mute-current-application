@@ -43,9 +43,17 @@ loadConfig:
 
 setupMenu:
     ; Set up tray menu
+    Menu, Tray, NoStandard
     Menu, Tray, Icon, muted volume.ico
     Menu, Tray, Tip, Mute Current Application
+
     Menu, Tray, Add, Change Hotkey, showGui
+    Menu, Tray, Default, Change Hotkey
+
+    Menu, Tray, Add
+    Menu, Tray, Add, Exit, Exit
+
+    Return
 
 setupGui:
     ; Set up gui
@@ -98,6 +106,10 @@ muteApplication:
     MsgBox, Hotkey pressed: %muteHotkey%
     ; run nircmd muteappvolume focused 2
     Return
+
+Exit() {
+    ExitApp
+}
 
 ; Debug refresh
 F12::
