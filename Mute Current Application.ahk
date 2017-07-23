@@ -16,7 +16,12 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;Global hotkey var
 muteHotkey = ''
 
-loadHotkeyFromIni:
+init:
+    Gosub, loadConfig
+    Gosub, setUpMenu
+    return
+
+loadConfig:
     ;Check for ini file
     IfNotExist, config.ini
         ; if no ini file show gui
@@ -33,6 +38,7 @@ loadHotkeyFromIni:
                 setHotkeyAction(muteHotkey)
             }
         }
+    Return
 
 setUpMenu:
     ; Set up tray menu
