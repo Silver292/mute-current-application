@@ -5,8 +5,9 @@
 ; Author:         Tom Scott <tomscott292@gmail.com>
 ;
 ; Script Function:
-;	Template script (you can customize this template by editing "ShellNew\Template.ahk" in your Windows folder)
-;
+;	Mutes the currently active application using a hotkey defined in the config.ini
+;   Hotkey can be set through the tray menu.
+;   Mute is toggled with the hotkey.
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
