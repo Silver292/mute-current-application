@@ -65,11 +65,6 @@ setupGui:
     Gui, Show, x720 y321 h134 w216, Change Hotkey
     Return
 
-showGui(){
-    Gui, Show, x720 y321 h134 w216, Change Hotkey
-    Return
-}
-
 saveButton:
     ;get old hotkey and clear action on it
     oldHotkey = %muteHotkey%
@@ -77,6 +72,15 @@ saveButton:
     IniWrite, %muteHotkey%, config.ini, Config, Hotkey ; save key in ini
     setNewHotkey(oldHotkey, muteHotkey)
     Return
+
+muteApplication:
+    run nircmd muteappvolume focused 2
+    Return
+
+showGui(){
+    Gui, Show, x720 y321 h134 w216, Change Hotkey
+    Return
+}
 
 setNewHotkey(oldKey, newHotkey){
     ; Don't do anything if key has not changed
@@ -102,10 +106,6 @@ setHotkeyAction(key) {
     }
     Return
 }
-
-muteApplication:
-    run nircmd muteappvolume focused 2
-    Return
 
 Exit() {
     ExitApp
