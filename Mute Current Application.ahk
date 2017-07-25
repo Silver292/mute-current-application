@@ -14,6 +14,10 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 
+;ini file vars
+configDir = %A_AppData%\Mute Current Application\
+configFile = %configDir%config.ini
+
 ;Global hotkey var
 muteHotkey=
 
@@ -24,22 +28,30 @@ init:
     return
 
 loadConfig:
+    ; Check for config dir
+    IfNotExist, %configDir%
+        FileCreateDir, %configDir% ; create if not exists
     ;Check for ini file
-    IfNotExist, config.ini
+    IfNotExist, %configFile%
         ; if no ini file show gui
         showGui()
     else {
+        ;Check config has hotkey value
+        IniRead, configHasItems, %configFile%, Config
+        if(!configHasItems) {
+            IniWrite, %A_Space%, %configFile%, Config, Hotkey ; create key with no value
+        }
+
         ; Read in current hotkey from ini file
-        IniRead, muteHotkey, config.ini, Config, Hotkey
+        IniRead, muteHotkey, %configFile%, Config, Hotkey
 
         ;If no hotkey
         if(!muteHotkey){
-            ;show gui
-            showGui()
-            } else {
-                setHotkeyAction(muteHotkey)
-            }
+            ShowGui()
+        } else {
+            setHotkeyAction(muteHotkey)
         }
+    }
     Return
 
 setupMenu:
@@ -69,7 +81,7 @@ saveButton:
     ;get old hotkey and clear action on it
     oldHotkey = %muteHotkey%
     Gui, Submit ; stores new hotkey in muteHotkey
-    IniWrite, %muteHotkey%, config.ini, Config, Hotkey ; save key in ini
+    IniWrite, %muteHotkey%, %configFile%, Config, Hotkey ; save key in ini
     setNewHotkey(oldHotkey, muteHotkey)
     Return
 
